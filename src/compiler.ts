@@ -7,8 +7,8 @@ interface DiagnosticLog {
   code: string;
 }
 
-const filename = 'test.ts';
-const code = `const test: number = 1 + 3;`;
+const filename = 'src/test.ts';
+const code = `const testNumber: number = 1 + 3;`;
 const sourceFile = ts.createSourceFile(filename, code, ts.ScriptTarget.Latest);
 
 /* const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
