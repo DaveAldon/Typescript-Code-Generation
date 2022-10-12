@@ -1,8 +1,9 @@
 import { writeFileSync } from 'fs';
 import { compile } from './Compiler/Compiler';
+import fs from 'fs';
+import { findFiles } from './FileFinder/FileFinder';
 
 const fileName = 'src/test.ts';
-//const code = `const testNumber: number = 1 + 4;`;
 
 const code = `
 const hello: string = 'hello';
@@ -19,6 +20,9 @@ if (hello === 'hello') {
   }
 `;
 
-const result = compile('src/index.ts', code);
+const files = findFiles('./', '.screen.tsx');
+console.log(files);
 
-writeFileSync(fileName, result, { encoding: 'utf-8' });
+//const result = compile(fileName, code);
+
+//writeFileSync(fileName, result, { encoding: 'utf-8' });
