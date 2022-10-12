@@ -1,4 +1,4 @@
-import { compile } from './Compiler';
+import { compile } from './compile';
 import { writeFileSync } from 'fs';
 
 export const writeFile = (path: string, content: string) => {

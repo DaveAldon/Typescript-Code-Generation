@@ -1,18 +1,7 @@
-import { findFiles } from './FileFinder/FileFinder';
-import { capitalizeFirstLetter } from './Utilities/NameHandlers';
-import { writeFile } from './Compiler/WriteFile';
+import { generatePattern } from './compiler/generatePattern';
 
-const fileName = 'src/test.ts';
-
-let code = ``;
-
-const files = findFiles('./', '.screen.ts');
-
-files.forEach(file => {
-  const line = `import { ${capitalizeFirstLetter(file.name)}Screen } from './${
-    file.importPath
-  }';\n`;
-  code += line;
+generatePattern({
+  filePath: 'src/Example/test.ts',
+  fileNamePattern: `.screen.ts`,
+  pattern: `import { $nameScreen } from './$importName';\n`,
 });
-
-writeFile(fileName, code);

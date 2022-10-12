@@ -1,12 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-
-interface FoundFile {
-  path: string;
-  fileName: string;
-  name: string;
-  importPath: string;
-}
+import { FoundFile } from '../types/compiler';
 
 export const findFiles = (startPath: string, filter: string): FoundFile[] => {
   const result: FoundFile[] = [];
@@ -22,8 +16,6 @@ export const recursiveFileSearch = (
   filter: string,
   callback: (file: FoundFile) => void
 ) => {
-  const regexFromFilter = new RegExp(`.*\.(${filter})$`, 'ig');
-
   if (!fs.existsSync(startPath)) {
     console.log('Directory does not exist', startPath);
     return;
@@ -38,15 +30,18 @@ export const recursiveFileSearch = (
 
     if (stat.isDirectory()) {
       recursiveFileSearch(filename, filter, callback);
-    } else if (regexFromFilter.test(filename)) {
+    } else if (`.${filename.split('.').slice(1).join('.')}` === filter) {
       const parsedFileName = filename.split('/').pop();
       const parsedName = parsedFileName?.split('.')[0];
-      const parsedImportPath = parsedFileName?.substring(0, parsedFileName.lastIndexOf('.'));
+      const parsedImportName = parsedFileName
+        ?.substring(0, parsedFileName.lastIndexOf('.'))
+        .split('/')
+        .pop();
 
       callback({
         path: filename,
-        importPath: parsedImportPath || '',
         fileName: parsedFileName || '',
+        importName: parsedImportName || '',
         name: parsedName || '',
       });
     }

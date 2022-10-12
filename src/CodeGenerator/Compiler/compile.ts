@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
-import { runDiagnostics } from '../Diagnostics/Diagnostics';
-import { createProgram } from '../Program/Program';
-import { createPrinter } from '../Printer/Printer';
+import { runDiagnostics } from '../diagnostics/runDiagnostics';
+import { createProgram } from '../program/createProgram';
+import { createPrinter } from '../printer/createPrinter';
 
 export const compile = (fileName: string, code: string) => {
   const sourceFile = ts.createSourceFile(fileName, code, ts.ScriptTarget.Latest);
