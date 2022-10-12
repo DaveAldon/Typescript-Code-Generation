@@ -4,6 +4,8 @@ import fs from 'fs';
 interface FoundFile {
   path: string;
   fileName: string;
+  name: string;
+  importPath: string;
 }
 
 export const findFiles = (startPath: string, filter: string): FoundFile[] => {
@@ -37,9 +39,15 @@ export const recursiveFileSearch = (
     if (stat.isDirectory()) {
       recursiveFileSearch(filename, filter, callback);
     } else if (regexFromFilter.test(filename)) {
+      const parsedFileName = filename.split('/').pop();
+      const parsedName = parsedFileName?.split('.')[0];
+      const parsedImportPath = parsedFileName?.substring(0, parsedFileName.lastIndexOf('.'));
+
       callback({
         path: filename,
-        fileName: filename.split('/').pop() || '',
+        importPath: parsedImportPath || '',
+        fileName: parsedFileName || '',
+        name: parsedName || '',
       });
     }
   }

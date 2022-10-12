@@ -1,28 +1,18 @@
-import { writeFileSync } from 'fs';
-import { compile } from './Compiler/Compiler';
-import fs from 'fs';
 import { findFiles } from './FileFinder/FileFinder';
+import { capitalizeFirstLetter } from './Utilities/NameHandlers';
+import { writeFile } from './Compiler/WriteFile';
 
 const fileName = 'src/test.ts';
 
-const code = `
-const hello: string = 'hello';
-const world: string = 'world';
-console.log(hello,world)
+let code = ``;
 
-if (hello === 'hello') {
-  if (hello === 'hello') {
-    const result = world;
-    const result2 = result;
-  }
-    const result = world;
-    const result2 = result;
-  }
-`;
+const files = findFiles('./', '.screen.ts');
 
-const files = findFiles('./', '.screen.tsx');
-console.log(files);
+files.forEach(file => {
+  const line = `import { ${capitalizeFirstLetter(file.name)}Screen } from './${
+    file.importPath
+  }';\n`;
+  code += line;
+});
 
-//const result = compile(fileName, code);
-
-//writeFileSync(fileName, result, { encoding: 'utf-8' });
+writeFile(fileName, code);
