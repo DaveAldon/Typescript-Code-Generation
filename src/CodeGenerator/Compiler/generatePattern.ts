@@ -1,3 +1,4 @@
+import { Characters } from '../enums/characters.enum';
 import { findFiles } from '../fileFinder/fileFinder';
 import { FoundFile, GeneratePatternOptions } from '../types/compiler';
 import { convertToCodePattern } from '../utilities/typeManagers';
@@ -34,7 +35,7 @@ export const generatePattern = ({
     files.forEach(file => {
       code += `${replacePatternIdentifiers(codePattern.pattern, file)}\n`;
     });
-    code += `//@SPACE\n`;
+    code += `${Characters.Space}\n`;
   });
   writeFile(filePath, code);
 };

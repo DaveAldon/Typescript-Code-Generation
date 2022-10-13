@@ -1,6 +1,8 @@
+import { Characters } from '../enums/characters.enum';
+
 export const formateHandler = (code: string) => {
   return code
-    .replaceAll('//@SPACE', '')
+    .replaceAll(Characters.Space, '')
     .split('')
     .reverse()
     .join('')
