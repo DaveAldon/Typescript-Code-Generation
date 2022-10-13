@@ -4,3 +4,15 @@ export interface FoundFile {
   name: string;
   importName: string;
 }
+export interface CodePattern {
+  pattern: string;
+  documentation?: string;
+}
+export interface GeneratePatternOptions {
+  filePath: string;
+  fileNamePattern: string;
+  codePatterns: (string | CodePattern)[] | string | CodePattern;
+  options?: {
+    folder?: string;
+  };
+}
