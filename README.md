@@ -4,7 +4,7 @@ The purpose of this repository is to provide a simple, **Typescript native** way
 
 Over a year ago I wrote a [blog post](https://www.bravolt.com/post/generate-index-can-save-your-sanity) going over how the [vscode-generate-index](https://github.com/fjc0k/vscode-generate-index) plugin has helped solve a lot of tedious problems we may face in the Typescript world. However, if I wasn't following my own advice about [continuous improvement](https://www.bravolt.com/post/how-to-adopt-a-continuous-improvement-culture), I would have never thought to start working on this project.
 
-The **vscode-generate-index** has been helpful in the short-term. However, in the **long-term** we identified several issues that this plugin's approach created. Here is a breakdown of the problems we faced, and how this project solves them:
+The **vscode-generate-index** plugin has been helpful in the short-term. However, in the **long-term** we identified several issues that this plugin's approach created. Here is a breakdown of the problems we faced, and how this project solves them:
 
 | vscode-generate-index                                                       | Typescript-Code-Generation                                                                                                                                                                                               |
 | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
