@@ -11,8 +11,12 @@ export interface CodePattern {
 export interface GeneratePatternOptions {
   filePath: string;
   fileNamePattern: string;
-  codePatterns: (string | CodePattern)[] | string | CodePattern;
+  codePatterns: GenericCodePattern;
   options?: {
     folder?: string;
   };
+}
+
+export interface GenericCodePattern {
+  pattern: (string | CodePattern)[] | string | CodePattern;
 }

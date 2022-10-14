@@ -1,4 +1,5 @@
 import { Characters } from '../enums/characters.enum';
+import { paths } from '../enums/paths.enum';
 import { findFiles } from '../fileFinder/fileFinder';
 import { FoundFile, GeneratePatternOptions } from '../types/compiler';
 import { convertToCodePattern } from '../utilities/typeManagers';
@@ -26,8 +27,8 @@ export const generatePattern = ({
   codePatterns,
   options,
 }: GeneratePatternOptions) => {
-  const { folder = './' } = options || {};
-  const files = findFiles(folder || './', fileNamePattern);
+  const { folder = paths.root } = options || {};
+  const files = findFiles(folder || paths.root, fileNamePattern);
   let code = ``;
 
   convertToCodePattern(codePatterns).forEach(codePattern => {
@@ -38,6 +39,7 @@ export const generatePattern = ({
     code += `${Characters.Space}\n`;
   });
   writeFile(filePath, code);
+  console.log(`Successfully generated ${filePath}`);
 };
 
 const replacePatternIdentifiers = (pattern: string, file: FoundFile) => {

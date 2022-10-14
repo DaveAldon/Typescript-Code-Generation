@@ -19,23 +19,21 @@ The **vscode-generate-index** plugin has been helpful in the short-term. However
 1. Install dependancies: `npm i`
 2. Run the code: `npm run start`
 
-Currently, this code will look for any file following the `<NAME>.generator.ts` pattern, and run the generator command inside of them.
+Currently, this code will look for any file following the `<NAME>.generator.json` pattern, and run the generator command based on their properties.
 
 ### How to use it
 
-Create a generator with the name `<NAME>.generator.ts` and place a generator command inside of it like so:
+Create a json file with the name `<NAME>.generator.json` and structure it like so:
 
-```typescript
-import { generatePattern } from './compiler/generatePattern';
-
-generatePattern({
-  filePath: 'src/Example/test.ts', // full path to the file that will be generated
-  fileNamePattern: `.screen.ts`, // the pattern that will be used to search for files, typically an extension
-  codePatterns: [
-    `import { $nameScreen } from './$importName';`, // a pattern can be just a string
-    { pattern: `const $name = "thing";`, documentation: `Variable assignment` }, // or a pattern can be an object with a pattern and documentation that will be presented at the beginning of its output block
-  ],
-});
+```json
+{
+  "filePath": "src/Example/test.ts",
+  "fileNamePattern": ".screen.ts",
+  "codePatterns": [
+    "import { $nameScreen } from './$importName';",
+    { "pattern": "const $name = 'thing';", "documentation": "Variable assignment" }
+  ]
+}
 ```
 
 The resulting `test.ts` file will look like this:

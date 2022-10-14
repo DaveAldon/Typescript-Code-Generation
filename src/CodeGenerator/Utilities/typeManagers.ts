@@ -1,12 +1,10 @@
-import { CodePattern } from '../types/compiler';
+import { CodePattern, GenericCodePattern } from '../types/compiler';
 
 export const isString = (value: string | CodePattern): value is string => {
   return typeof value === 'string';
 };
 
-export const convertToCodePattern = (
-  pattern: (string | CodePattern)[] | string | CodePattern
-): CodePattern[] => {
+export const convertToCodePattern = (pattern: GenericCodePattern): CodePattern[] => {
   const patternArray: string[] | CodePattern[] = Array.prototype.concat(pattern);
   const convertedPatternArray: CodePattern[] = [];
   patternArray.forEach(pattern => {
