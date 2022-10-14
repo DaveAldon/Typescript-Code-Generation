@@ -19,11 +19,11 @@ The **vscode-generate-index** plugin has been helpful in the short-term. However
 1. Install dependancies: `npm i`
 2. Run the code: `npm run start`
 
-Currently, this code will generate a file in the `src/Example` directory, with some simple code defined in the `src/CodeGenerator/index.ts` file. It also checks the code for errors before writing it to the file.
+Currently, this code will look for any file following the `<NAME>.generator.ts` pattern, and run the generator command inside of them.
 
 ### How to use it
 
-Call on the generator command like so:
+Create a generator with the name `<NAME>.generator.ts` and place a generator command inside of it like so:
 
 ```typescript
 import { generatePattern } from './compiler/generatePattern';
