@@ -1,10 +1,5 @@
 import * as ts from 'typescript';
-
-interface DiagnosticLog {
-  reference: string;
-  error: string;
-  code: string;
-}
+import { DiagnosticLog } from './../../../index.d';
 
 /** Returns true if no errors, and false if an error is found.
  * Any errors found will be logged to the console.

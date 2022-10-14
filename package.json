@@ -1,8 +1,12 @@
 {
-  "name": "typescript-testing-playground",
-  "version": "1.0.0",
+  "name": "typescript-code-generation",
+  "version": "0.9.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
+  "bin": {
+    "generate-ts": "index.ts"
+  },
+  "types": "index.d.ts",
   "scripts": {
     "start": "npx ts-node src/CodeGenerator/index.ts",
     "build": "tsc",

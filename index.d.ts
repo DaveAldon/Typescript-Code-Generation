@@ -16,7 +16,11 @@ export interface GeneratePatternOptions {
     folder?: string;
   };
 }
-
 export interface GenericCodePattern {
   pattern: (string | CodePattern)[] | string | CodePattern;
+}
+export interface DiagnosticLog {
+  reference: string;
+  error: string;
+  code: string;
 }

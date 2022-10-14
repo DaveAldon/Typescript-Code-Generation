@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { FoundFile } from '../types/compiler';
+import { FoundFile } from './../../../index.d';
 
 export const findFiles = (startPath: string, filter: string): FoundFile[] => {
   const result: FoundFile[] = [];

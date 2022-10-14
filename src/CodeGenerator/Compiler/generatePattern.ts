@@ -1,7 +1,7 @@
 import { Characters } from '../enums/characters.enum';
 import { paths } from '../enums/paths.enum';
 import { findFiles } from '../fileFinder/fileFinder';
-import { FoundFile, GeneratePatternOptions } from '../types/compiler';
+import { FoundFile, GeneratePatternOptions } from './../../../index.d';
 import { convertToCodePattern } from '../utilities/typeManagers';
 import { writeFile } from './writeFile';
 

@@ -1,4 +1,4 @@
-import { GeneratePatternOptions } from '../types/compiler';
+import { GeneratePatternOptions } from './../../../index.d';
 
 const errorMessage = 'property is missing in';
 
