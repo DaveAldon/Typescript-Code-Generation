@@ -2,34 +2,38 @@
 
 The purpose of this repository is to provide a simple, **Typescript native** way to dynamically generate Typescript code based on a pattern.
 
-Over a year ago I wrote a [blog post](https://www.bravolt.com/post/generate-index-can-save-your-sanity) going over how the [vscode-generate-index](https://github.com/fjc0k/vscode-generate-index) plugin has helped solve a lot of tedious problems we may face in the Typescript world. However, if I wasn't following my own advice about [continuous improvement](https://www.bravolt.com/post/how-to-adopt-a-continuous-improvement-culture), I would have never thought to start working on this project.
+### Getting started
 
-The **vscode-generate-index** plugin has been helpful in the short-term. However, in the **long-term** we identified several issues that this plugin's approach created. Here is a breakdown of the problems we faced, and how this project solves them:
+Typescript version ^4.8.4 needs to be installed globally via:
 
-| vscode-generate-index                                                                                                                                                                            | Typescript-Code-Generation                                                                                                                                                                                               |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Creating and maintaining the patterns is cumbersome. The patterns exist as single line comments                                                                                                  | Patterns are defined with simple, overt syntax. Documentation is also encouraged and can be added to each pattern block easily                                                                                           |
-| Onboarding new developers creates learning curve issues. They need to learn the [minimatch](https://github.com/isaacs/minimatch#usage) pattern, and the `@index` flag syntax, among other things | API is interacted with via native Typescript. In fact, the entire backend is run via the Typescript Compiler API                                                                                                         |
-| Makes it too easy/tempting to combine with manual code, adding to confusion                                                                                                                      | Each code generation result is placed in its own file, overwriting itself on each invocation                                                                                                                             |
-| When not left in check, creates monolithic generated files                                                                                                                                       | While any file can become monolithic, this project makes it difficult because it is not possible to have different **file searches** in the same output, only different **patterns** as a result of a single file search |
-| No type safety or compiler checks until after the code is generated                                                                                                                              | The resulting code from each pattern is run through the native Typescript compiler API, and any errors and type issues are outputted to the console and blocks generation of the file                                    |
+```bash
+npm install -g typescript
+```
 
-### How to use it
+Then you can simply run this package via an `npx` command:
 
-Create a json file with the name `<NAME>.generator.json` and structure it like so:
+```bash
+npx generate-ts
+```
+
+It will pick up any `<NAME>.generator.json` files in your project and generate patterns based on their properties.
+
+### How to structure the generator.json files
+
+Create some json files with the name `<NAME>.generator.json` and structure them like so:
 
 ```json
 {
-  "filePath": "src/Example/test.ts",
-  "fileNamePattern": ".screen.ts",
-  "codePatterns": [
-    "import { $nameScreen } from './$importName';",
-    { "pattern": "const $name = 'thing';", "documentation": "Variable assignment" }
+  "filePath": "src/Example/test.ts", <-- the path and name of the file to be generated
+  "fileNamePattern": ".screen.ts",   <-- the pattern for the files that you want to apply a code pattern to
+  "codePatterns": [                  <-- the pattern(s) to be applied to the files found via the fileNamePattern property
+    "import { $nameScreen } from './$importName';", <-- you can just insert a simple string pattern using the API's variables
+    { "pattern": "const $name = 'thing';", "documentation": "Variable assignment" } <-- patterns can have custom documentation placed at the beginning of a code block
   ]
 }
 ```
 
-The resulting `test.ts` file will look like this:
+Run `npx generate-ts`, and the resulting `test.ts` file will look like this:
 
 ```typescript
 import { ExampleScreen } from './Example.screen';
@@ -57,12 +61,16 @@ const Second = 'thing';
 | -------- | ----------------- | -------------------------------------------------------------- |
 | folder   | string (optional) | Limits file search to a provided directory. Defaults to `'./'` |
 
-### WIP Research
+### Motivation
 
-These are the resources I've been using to piece this together for the time-being, before it's in a completely working state:
+Over a year ago I wrote a [blog post](https://www.bravolt.com/post/generate-index-can-save-your-sanity) going over how the [vscode-generate-index](https://github.com/fjc0k/vscode-generate-index) plugin has helped solve a lot of tedious problems we may face in the Typescript world. However, if I wasn't following my own advice about [continuous improvement](https://www.bravolt.com/post/how-to-adopt-a-continuous-improvement-culture), I would have never thought to start working on this project.
 
-https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API#user-content-creating-and-pr
+The **vscode-generate-index** plugin has been helpful in the short-term. However, in the **long-term** we identified several issues that this plugin's approach created. Here is a breakdown of the problems we faced, and how this project solves them:
 
-https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API#incremental-build-support-using-the-language-services
-
-https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/#altering-or-creating-code-programmatically
+| vscode-generate-index                                                                                                                                                                            | Typescript-Code-Generation                                                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Creating and maintaining the patterns is cumbersome. The patterns exist as single line comments                                                                                                  | Patterns are defined with simple, overt syntax. Documentation is also encouraged and can be added to each pattern block easily                                                                                           |
+| Onboarding new developers creates learning curve issues. They need to learn the [minimatch](https://github.com/isaacs/minimatch#usage) pattern, and the `@index` flag syntax, among other things | API is interacted with via native Typescript. In fact, the entire backend is run via the Typescript Compiler API                                                                                                         |
+| Makes it too easy/tempting to combine with manual code, adding to confusion                                                                                                                      | Each code generation result is placed in its own file, overwriting itself on each invocation                                                                                                                             |
+| When not left in check, creates monolithic generated files                                                                                                                                       | While any file can become monolithic, this project makes it difficult because it is not possible to have different **file searches** in the same output, only different **patterns** as a result of a single file search |
+| No type safety or compiler checks until after the code is generated                                                                                                                              | The resulting code from each pattern is run through the native Typescript compiler API, and any errors and type issues are outputted to the console and blocks generation of the file                                    |
