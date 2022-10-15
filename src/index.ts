@@ -12,3 +12,5 @@ findFiles(paths.root, generatorExtensions.json).forEach(({ path }) => {
   const generator = require(resolve(path)) as GeneratePatternOptions;
   if (validateGeneratorJson(generator, path)) generatePattern({ ...generator });
 });
+
+export { generatePattern, GeneratePatternOptions };

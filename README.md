@@ -1,5 +1,7 @@
 # generate-ts
 
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) [![NPM](https://nodei.co/npm/generate-ts.png?mini=true)](https://npmjs.org/package/generate-ts)
+
 The purpose of this repository is to provide a simple, **Typescript native** way to dynamically generate Typescript code based on a pattern.
 
 ### Getting started
@@ -67,6 +69,36 @@ const example = () => {
 | Property | Type              | Description                                                    |
 | -------- | ----------------- | -------------------------------------------------------------- |
 | folder   | string (optional) | Limits file search to a provided directory. Defaults to `'./'` |
+
+#### Using the library programmatically
+
+You can install this package and use it programmatically instead of using `npx`:
+
+```typescript
+npm install generate-ts
+```
+
+And then use it like so:
+
+```typescript
+import { generatePattern, GeneratePatternOptions } from 'generate-ts';
+
+const options: GeneratePatternOptions = {
+  filePath: 'src/Example/test.ts',
+  fileNamePattern: '.screen.ts',
+  codePatterns: [
+    "import { $nameScreen } from './$importName';",
+    {
+      documentation: 'Example pattern block',
+      prePattern: 'const example = () => {',
+      pattern: "const $name = 'thing';",
+      postPattern: '}',
+    },
+  ],
+};
+
+generatePattern(options);
+```
 
 ### Motivation
 
