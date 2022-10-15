@@ -3,6 +3,11 @@
   "fileNamePattern": ".screen.ts",
   "codePatterns": [
     "import { $nameScreen } from './$importName';",
-    { "pattern": "const $name = 'thing';", "documentation": "Variable assignment" }
+    {
+      "documentation": "Example pattern block",
+      "prePattern": "const example = () => {",
+      "pattern": "const $name = 'thing';",
+      "postPattern": "}"
+    }
   ]
 }

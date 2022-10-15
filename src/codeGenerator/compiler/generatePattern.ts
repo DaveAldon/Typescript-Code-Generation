@@ -33,9 +33,11 @@ export const generatePattern = ({
 
   convertToCodePattern(codePatterns).forEach(codePattern => {
     code += codePattern.documentation ? `// ${codePattern.documentation}\n` : ``;
+    code += codePattern.prePattern ? `${codePattern.prePattern}\n` : ``;
     files.forEach(file => {
       code += `${replacePatternIdentifiers(codePattern.pattern, file)}\n`;
     });
+    code += codePattern.postPattern ? `${codePattern.postPattern}\n` : ``;
     code += `${Characters.Space}\n`;
   });
   writeFile(filePath, code);

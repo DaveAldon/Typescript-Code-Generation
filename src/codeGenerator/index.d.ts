@@ -7,6 +7,8 @@ export interface FoundFile {
 export interface CodePattern {
   pattern: string;
   documentation?: string;
+  prePattern?: string;
+  postPattern?: string;
 }
 export interface GeneratePatternOptions {
   filePath: string;

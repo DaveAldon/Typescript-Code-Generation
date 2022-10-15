@@ -28,7 +28,12 @@ Create some json files with the name `<NAME>.generator.json` and structure them 
   "fileNamePattern": ".screen.ts",   <-- the pattern for the files that you want to apply a code pattern to
   "codePatterns": [                  <-- the pattern(s) to be applied to the files found via the fileNamePattern property
     "import { $nameScreen } from './$importName';", <-- you can just insert a simple string pattern using the API's variables
-    { "pattern": "const $name = 'thing';", "documentation": "Variable assignment" } <-- patterns can have custom documentation placed at the beginning of a code block
+    {
+      "documentation": "Example pattern block", <-- (optional) patterns can have custom documentation placed at the beginning of a code block
+      "prePattern": "const example = () => {",  <-- (optional) patterns can have code that is placed before the pattern block
+      "pattern": "const $name = 'thing';",      <-- pattern that will be run on each file found
+      "postPattern": "}"                        <-- (optional) patterns can have code that is placed after the pattern block
+    }
   ]
 }
 ```
@@ -39,9 +44,11 @@ Run `npx generate-ts`, and the resulting `test.ts` file will look like this:
 import { ExampleScreen } from './Example.screen';
 import { SecondScreen } from './Second.screen';
 
-// Variable assignment
-const Example = 'thing';
-const Second = 'thing';
+// Example pattern block
+const example = () => {
+  const Example = 'thing';
+  const Second = 'thing';
+};
 ```
 
 ### API

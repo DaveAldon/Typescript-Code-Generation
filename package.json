@@ -1,6 +1,6 @@
 {
   "name": "generate-ts",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "",
   "main": "index.ts",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "start": "npx ts-node index.ts",
+    "start": "npx ts-node src/index.ts",
     "build": "tsc",
     "test": "jest"
   },
