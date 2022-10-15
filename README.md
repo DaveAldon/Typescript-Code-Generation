@@ -1,4 +1,4 @@
-# Typescript-Code-Generation
+# generate-ts
 
 The purpose of this repository is to provide a simple, **Typescript native** way to dynamically generate Typescript code based on a pattern.
 
@@ -13,13 +13,6 @@ The **vscode-generate-index** plugin has been helpful in the short-term. However
 | Makes it too easy/tempting to combine with manual code, adding to confusion                                                                                                                      | Each code generation result is placed in its own file, overwriting itself on each invocation                                                                                                                             |
 | When not left in check, creates monolithic generated files                                                                                                                                       | While any file can become monolithic, this project makes it difficult because it is not possible to have different **file searches** in the same output, only different **patterns** as a result of a single file search |
 | No type safety or compiler checks until after the code is generated                                                                                                                              | The resulting code from each pattern is run through the native Typescript compiler API, and any errors and type issues are outputted to the console and blocks generation of the file                                    |
-
-### Getting Started
-
-1. Install dependancies: `npm i`
-2. Run the code: `npm run start`
-
-Currently, this code will look for any file following the `<NAME>.generator.json` pattern, and run the generator command based on their properties.
 
 ### How to use it
 

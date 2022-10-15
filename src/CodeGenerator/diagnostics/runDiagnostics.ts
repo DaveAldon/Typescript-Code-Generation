@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { DiagnosticLog } from './../../../index.d';
+import { DiagnosticLog } from '..';
 
 /** Returns true if no errors, and false if an error is found.
  * Any errors found will be logged to the console.

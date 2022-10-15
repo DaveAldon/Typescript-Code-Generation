@@ -1,4 +1,4 @@
-import { CodePattern, GenericCodePattern } from './../../../index.d';
+import { CodePattern, GenericCodePattern } from '..';
 
 export const isString = (value: string | CodePattern): value is string => {
   return typeof value === 'string';
