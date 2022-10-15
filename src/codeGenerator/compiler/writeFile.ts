@@ -1,8 +1,8 @@
 import { compile } from './compile';
 import { writeFileSync } from 'fs';
-import { formateHandler } from '../utilities/formatHandler';
+import { formatHandler } from '../utilities/formatHandler';
 
 export const writeFile = (path: string, content: string) => {
-  const result = formateHandler(compile(path, content));
+  const result = formatHandler(compile(path, content));
   writeFileSync(path, result, { encoding: 'utf-8' });
 };
