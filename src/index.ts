@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ts-node-script
 
 import { generatorExtensions } from './codeGenerator/enums/generatorExtensions.enum';
 import { paths } from './codeGenerator/enums/paths.enum';
