@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import * as fs from 'fs';
 import { GeneratePatternOptions, GenericCodePattern } from '..';
 import { Tokens } from '../enums/characters.enum';
