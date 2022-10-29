@@ -1,8 +1,8 @@
-import { Characters } from '../enums/characters.enum';
+import { Tokens } from '../enums/characters.enum';
 
 export const formatHandler = (code: string) => {
   return code
-    .replaceAll(Characters.Space, '')
+    .replaceAll(Tokens.Space, '')
     .split('')
     .reverse()
     .join('')

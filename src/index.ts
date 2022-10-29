@@ -1,16 +1,9 @@
 #!/usr/bin/env node
 
-import { generatorExtensions } from './codeGenerator/enums/generatorExtensions.enum';
-import { paths } from './codeGenerator/enums/paths.enum';
-import { GeneratePatternOptions } from './codeGenerator';
-import { validateGeneratorJson } from './codeGenerator/utilities/validateGeneratorJson';
+import { GeneratePatternOptions, GenericCodePattern } from './codeGenerator';
 import { generatePattern } from './codeGenerator/compiler/generatePattern';
-import { findFiles } from './codeGenerator/fileFinder/fileFinder';
-const { resolve } = require('path');
+import { parseMarkdown } from './codeGenerator/parsers/parseMarkdown';
 
-findFiles(paths.root, generatorExtensions.json).forEach(({ path }) => {
-  const generator = require(resolve(path)) as GeneratePatternOptions;
-  if (validateGeneratorJson(generator, path)) generatePattern({ ...generator });
-});
+parseMarkdown();
 
-export { generatePattern, GeneratePatternOptions };
+export { generatePattern, GenericCodePattern, GeneratePatternOptions, parseMarkdown };

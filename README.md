@@ -2,7 +2,7 @@
 
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) [![NPM](https://nodei.co/npm/generate-ts.png?mini=true)](https://npmjs.org/package/generate-ts)
 
-The purpose of this repository is to provide a simple, **Typescript native** way to dynamically generate Typescript code based on a pattern.
+The purpose of this repository is to provide a simple, **Typescript native** way to dynamically generate Typescript code based on a pattern from a `markdown` file.
 
 ### Getting started
 
@@ -18,27 +18,35 @@ Then you can simply run this package via an `npx` command:
 npx generate-ts
 ```
 
-It will pick up any `<NAME>.generator.json` files in your project and generate patterns based on their properties.
+It will pick up any `<NAME>.generator.md` files in your project and generate patterns based on a particular format.
 
-### How to structure the generator.json files
+### How to structure the generator.md files
 
-Create some json files with the name `<NAME>.generator.json` and structure them like so:
+Create some `.md` files with the name `<NAME>.generator.md` and structure them like so:
 
-```json
-{
-  "filePath": "src/Example/test.ts", <-- the path and name of the file to be generated
-  "fileNamePattern": ".screen.ts",   <-- the pattern for the files that you want to apply a code pattern to
-  "codePatterns": [                  <-- the pattern(s) to be applied to the files found via the fileNamePattern property
-    "import { $nameScreen } from './$importName';", <-- you can just insert a simple string pattern using the API's variables
-    {
-      "documentation": "Example pattern block", <-- (optional) patterns can have custom documentation placed at the beginning of a code block
-      "prePattern": "const example = () => {",  <-- (optional) patterns can have code that is placed before the pattern block
-      "pattern": "const $name = 'thing';",      <-- pattern that will be run on each file found
-      "postPattern": "}"                        <-- (optional) patterns can have code that is placed after the pattern block
-    }
-  ]
-}
+````markdown
+filePath
+`src/example/test.ts`
+
+fileNamePattern
+`.screen.ts`
+
+codePatterns
+
+```TypeScript
+import { $nameScreen } from './$importName'; // pattern
 ```
+
+```TypeScript
+const test = () => {
+  // variable assignment
+  const $nameVariable = "$name"; // pattern
+  return {
+    $nameVariable, // pattern
+  };
+};
+```
+````
 
 Run `npx generate-ts`, and the resulting `test.ts` file will look like this:
 
@@ -46,14 +54,33 @@ Run `npx generate-ts`, and the resulting `test.ts` file will look like this:
 import { ExampleScreen } from './Example.screen';
 import { SecondScreen } from './Second.screen';
 
-// Example pattern block
-const example = () => {
-  const Example = 'thing';
-  const Second = 'thing';
+const test = () => {
+  // variable assignment
+  const ExampleVariable = 'Example';
+  const SecondVariable = 'Second';
+  return {
+    ExampleVariable,
+    SecondVariable,
+  };
 };
 ```
 
 ### API
+
+#### Markdown file structure
+
+| Flag              | Description                                              |
+| ----------------- | -------------------------------------------------------- |
+| `filePath`        | The path to the file to be generated                     |
+| `fileNamePattern` | The pattern used to pick up files by their extensions    |
+| `codePatterns`    | Any code blocks after this will be used to generate code |
+
+#### Code patterns
+
+| Type    | Description                                                                                                                   | Example                                                   |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Static  | Code that is generated once                                                                                                   | `const test = "test";`                                    |
+| Pattern | Must be appended with a `// pattern` comment. This is code that is generated for each file that matches the `fileNamePattern` | `import { $nameScreen } from './$importPath'; // pattern` |
 
 #### Pattern Variables
 
@@ -63,12 +90,6 @@ const example = () => {
 | $fileName   | Gets the entire file name: "MyScreen.screen.ts"                              |
 | $importPath | Gets the file path without the last extension: "src/screens/MyScreen.screen" |
 | $path       | Gets the full path: "src/screens/MyScreen.screen.ts"                         |
-
-#### Options
-
-| Property | Type              | Description                                                    |
-| -------- | ----------------- | -------------------------------------------------------------- |
-| folder   | string (optional) | Limits file search to a provided directory. Defaults to `'./'` |
 
 #### Using the library programmatically
 
@@ -87,18 +108,25 @@ const options: GeneratePatternOptions = {
   filePath: 'src/Example/test.ts',
   fileNamePattern: '.screen.ts',
   codePatterns: [
-    "import { $nameScreen } from './$importName';",
     {
-      documentation: 'Example pattern block',
-      prePattern: 'const example = () => {',
-      pattern: "const $name = 'thing';",
-      postPattern: '}',
+      pattern: `// import code block`
+      static: true,
     },
+    {
+      pattern: `import { $nameScreen } from './$importName';`
+      static: false,
+    }
   ],
 };
 
 generatePattern(options);
 ```
+
+#### Options
+
+| Property | Type              | Description                                                    |
+| -------- | ----------------- | -------------------------------------------------------------- |
+| folder   | string (optional) | Limits file search to a provided directory. Defaults to `'./'` |
 
 ### Motivation
 
@@ -108,7 +136,7 @@ The **vscode-generate-index** plugin has been helpful in the short-term. However
 
 | vscode-generate-index                                                                                                                                                                            | Typescript-Code-Generation                                                                                                                                                                                               |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Creating and maintaining the patterns is cumbersome. The patterns exist as single line comments                                                                                                  | Patterns are defined with simple, overt syntax. Documentation is also encouraged and can be added to each pattern block easily                                                                                           |
+| Creating and maintaining the patterns is cumbersome. The patterns exist as single line comments                                                                                                  | Patterns are defined with simple, overt syntax. Documentation is also encouraged and can be added anywhere in the markdown file                                                                                          |
 | Onboarding new developers creates learning curve issues. They need to learn the [minimatch](https://github.com/isaacs/minimatch#usage) pattern, and the `@index` flag syntax, among other things | API is interacted with via native Typescript. In fact, the entire backend is run via the Typescript Compiler API                                                                                                         |
 | Makes it too easy/tempting to combine with manual code, adding to confusion                                                                                                                      | Each code generation result is placed in its own file, overwriting itself on each invocation                                                                                                                             |
 | When not left in check, creates monolithic generated files                                                                                                                                       | While any file can become monolithic, this project makes it difficult because it is not possible to have different **file searches** in the same output, only different **patterns** as a result of a single file search |

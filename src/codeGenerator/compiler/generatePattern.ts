@@ -1,8 +1,7 @@
-import { Characters } from '../enums/characters.enum';
+import { Tokens } from '../enums/characters.enum';
 import { paths } from '../enums/paths.enum';
 import { FoundFile, GeneratePatternOptions } from '..';
 import { findFiles } from '../fileFinder/fileFinder';
-import { convertToCodePattern } from '../utilities/typeManagers';
 import { writeFile } from './writeFile';
 
 /** Searches for files that fit the pattern, and returns a code string based on the given code patter.
@@ -31,17 +30,21 @@ export const generatePattern = ({
   const files = findFiles(folder || paths.root, fileNamePattern);
   let code = ``;
 
-  convertToCodePattern(codePatterns).forEach(codePattern => {
-    code += codePattern.documentation ? `// ${codePattern.documentation}\n` : ``;
-    code += codePattern.prePattern ? `${codePattern.prePattern}\n` : ``;
-    files.forEach(file => {
-      code += `${replacePatternIdentifiers(codePattern.pattern, file)}\n`;
+  codePatterns.forEach(codePattern => {
+    codePattern.forEach(codeLine => {
+      if (codeLine.static) {
+        code += `${codeLine.pattern}\n`;
+      } else {
+        files.forEach(file => {
+          code += `${replacePatternIdentifiers(codeLine.pattern, file)}\n`;
+        });
+      }
     });
-    code += codePattern.postPattern ? `${codePattern.postPattern}\n` : ``;
-    code += `${Characters.Space}\n`;
+    code += `${Tokens.Space}\n`;
   });
+
   writeFile(filePath, code);
-  console.log(`Successfully generated ${filePath}`);
+  console.log(`Successfully generated from markdown ${filePath}`);
 };
 
 const replacePatternIdentifiers = (pattern: string, file: FoundFile) => {
@@ -49,5 +52,6 @@ const replacePatternIdentifiers = (pattern: string, file: FoundFile) => {
     .replaceAll('$name', file.name)
     .replaceAll('$importName', file.importName)
     .replaceAll('$path', file.path)
-    .replaceAll('$fileName', file.fileName);
+    .replaceAll('$fileName', file.fileName)
+    .replaceAll(Tokens.Pattern, '');
 };

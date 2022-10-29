@@ -13,13 +13,14 @@ export interface CodePattern {
 export interface GeneratePatternOptions {
   filePath: string;
   fileNamePattern: string;
-  codePatterns: GenericCodePattern;
+  codePatterns: GenericCodePattern[][];
   options?: {
     folder?: string;
   };
 }
 export interface GenericCodePattern {
-  pattern: (string | CodePattern)[] | string | CodePattern;
+  pattern: string;
+  static: boolean;
 }
 export interface DiagnosticLog {
   reference: string;
